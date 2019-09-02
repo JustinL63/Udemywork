@@ -1,13 +1,21 @@
 import React from "react"
 
 const CockPit = (props) => {
+    const style = {
+        backgroundColor: "white", 
+        font: "inherit",
+        border: "1px solid blue",
+        padding: "8px",
+        cursor: "pointer"
+  
+      }
+  
     return(
-        <div className={classes.CockPit}>
+        <div style={style}>
             <h1>Hi, I'm a React App!</h1>
             <p>Another Heading</p>
             <button
-                style={style}
-                onClick={props.togglePersonsHandler} >Toggle Persons
+                onClick={props.clicked} >Toggle Persons
             </button>
         </div>
     )
