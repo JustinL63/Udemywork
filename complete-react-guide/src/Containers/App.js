@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Persons from "../Components/Persons/Persons";
 import CockPit from "../Components/CockPit/Cockpit"
-
-import './App.css';
+import withClass from "../Components/Hoc/withClass"
+import Aux from "../Components/Hoc/Auxillary"
+import classes from './App.css';
 
 
 class App extends Component {
@@ -79,7 +80,7 @@ static getDeriviedStateFromProps(props, state) {
 
 
     return (
-      <div className="App">
+      <Aux>
         <button onClick={() => {this.setState({showCockpit: !this.state.showCockpit})}}>Remove CockPit</button>
        {this.state.showCockpit ? (<CockPit
           showPersons={this.state.showPersons}
@@ -88,7 +89,7 @@ static getDeriviedStateFromProps(props, state) {
        }
         {persons}
 
-      </div>
+        </Aux>
     );
 
     // return React.createElement('div', {className: "App"}, React.createElement("h1", null, "Hi I'm a React App!!"))
@@ -96,4 +97,4 @@ static getDeriviedStateFromProps(props, state) {
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
