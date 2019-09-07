@@ -78,6 +78,10 @@ removeIngredientHandler = (type) => {
         })
     }
 
+    purchaseContinueHandler = () => {
+        alert("You continue!")
+    }
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients
@@ -89,7 +93,11 @@ removeIngredientHandler = (type) => {
             <Aux>
                 <Modal show={this.state.purchasing}
                 modalClosed={this.purchaseCancelHandler}>
-                    <OrderSummar ingredients={this.state.ingredients}/>
+                    <OrderSummar 
+                        ingredients={this.state.ingredients}
+                        purchaseCancelled={this.purchaseCancelHandler}
+                        purchaseContinued={this.purchaseContinueHandler}
+                        price={this.state.totalPrice}/>
                 </Modal>
                 <br/>
                 <Burger ingredients={this.state.ingredients}/>
