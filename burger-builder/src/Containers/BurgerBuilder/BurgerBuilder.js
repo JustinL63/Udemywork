@@ -23,12 +23,17 @@ class BurgerBuilder extends Component {
         totalPrice: 4,
         purchaseable: false,
         purchasing: false,
-        loading: false
+        loading: false,
+        error: false
+
     }
     componentDidMount() {
         axios.get("https://burger-builder-1c97e.firebaseio.com/ingredients.json")
             .then(response => {
                 this.setState({ ingredients: response.data })
+            })
+            .catch(error => {
+                this.setState({error: true})
             })
     }
 
@@ -87,28 +92,17 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandler = () => {
         // alert("You continue!")
-        this.setState({ loading: true })
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: "Justin Lamb",
-                address: {
-                    street: "Test Street",
-                    zipCode: '696969',
-                    country: "'Merica"
-                },
-                email: "test@test.com",
-            },
-            deliveryMethod: "fastest"
-        }
-        axios.post("/orders.json", order)
-            .then(response => {
-                this.setState({ loading: false, purchasing: false })
-            })
-            .catch(error => {
-                this.setState({ loading: false, purchasing: false })
-            })
+     /*   
+            */
+           const queryParams = []
+           for (let i in this.state.ingredients) {
+               queryParams.push(encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i]))
+           }
+           queryParams.push("price=" + this.state.totalPrice)
+           const queryString = queryParams.join("&")
+           this.props.history.push({
+                pathname: "/checkout",
+                search: "?" + queryString})
     }
 
     render() {
@@ -124,7 +118,7 @@ class BurgerBuilder extends Component {
         if (this.state.loading) {
             orderSummary = <Spinner />
         }
-        let burger =<Spinner/>
+        let burger = this.state.error ? <p>ingredients can't be loaded</p> : <Spinner/>
         if (this.state.ingredients) {
             burger = (
                 <Aux>
